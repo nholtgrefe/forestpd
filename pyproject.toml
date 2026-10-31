@@ -1,0 +1,129 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "forestpd"
+dynamic = ["version"]
+authors = [
+    {name = "Niels Holtgrefe", email = "n.a.l.holtgrefe@tudelft.nl"},
+]
+description = "a package for maximizing phylogenetic diversity across many phylogenetic trees"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+keywords = [
+    "phylogenetics",
+    "phylogenetic diversity",
+    "phylogenetic trees",
+    "bioinformatics",
+    "computational-biology",
+]
+dependencies = [
+    "numpy>=1.20.0",
+    # Compiles the hot loops (Newick parsing, cluster reduction, profiles, the signature DP,
+    # split systems). Every kernel keeps a NumPy/Python fallback that is used if Numba cannot be
+    # imported, but that path is far slower.
+    "numba>=0.56.0",
+]
+
+[project.optional-dependencies]
+# Optional: conversion to and from PhyloZoo networks (forestpd.io.pz), which opens up plotting
+# and the rest of the PhyloZoo ecosystem. The core parses Newick itself and does not need it.
+phylozoo = [
+    "phylozoo>=0.4.1",
+]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "mypy>=1.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "phylozoo>=0.4.1",
+]
+# The documentation site (docs/): Sphinx with the PyData theme; matplotlib draws the examples' figure.
+docs = [
+    "sphinx>=7.0.0",
+    "pydata-sphinx-theme>=0.15.0",
+    "sphinx-copybutton>=0.5.0",
+    "matplotlib>=3.5.0",
+]
+
+[project.urls]
+Documentation = "https://nholtgrefe.github.io/forestpd/"
+Repository = "https://github.com/nholtgrefe/forestpd"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+license-files = ["LICENSE"]
+
+[tool.setuptools.dynamic]
+version = {attr = "forestpd.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+forestpd = ["py.typed"]
+
+[tool.pytest.ini_options]
+# Collect the test suite plus the doctests embedded in the source (the docstring Examples double as
+# executable tests, per the project conventions) and in the documentation pages.
+testpaths = ["tests", "src", "docs/source"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--tb=short",
+    "--import-mode=importlib",
+    "--doctest-modules",
+    "--doctest-glob=*.rst",
+    # io/pz.py imports PhyloZoo, an optional extra; tests/test_pz.py covers it instead
+    "--ignore=src/forestpd/io/pz.py",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+
+# PhyloZoo does not ship a py.typed marker yet, so it has no inline type information.
+[[tool.mypy.overrides]]
+module = ["phylozoo", "phylozoo.*"]
+ignore_missing_imports = true
+
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311']
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+# Ruff's classic default set, made explicit so the check does not change when a new
+# ruff release extends its defaults (0.16 enabled I/UP/SIM/RUF rules by default).
+select = ["E4", "E7", "E9", "F"]

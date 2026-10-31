@@ -1,5 +1,5 @@
 """
-forestpd — fast maximization of phylogenetic diversity across many phylogenetic trees.
+forestpd — maximizing phylogenetic diversity under phylogenetic and extinction uncertainty.
 
 Solves MaxMPD: given unrooted weighted trees on a shared taxon set, per-tree weights ``w_j``,
 integer taxon costs and a budget ``B``, choose ``S`` with ``c(S) <= B`` maximizing

@@ -3,8 +3,8 @@
 [![Docs](https://img.shields.io/badge/docs-stable-blue)](https://nholtgrefe.github.io/forestpd/)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/source/_static/forestpd-logo-dark.svg">
-  <img src="docs/source/_static/forestpd-logo.svg" alt="ForestPD logo" width="360" align="right">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nholtgrefe/forestpd/main/docs/source/_static/forestpd-logo-dark.svg">
+  <img src="https://raw.githubusercontent.com/nholtgrefe/forestpd/main/docs/source/_static/forestpd-logo.svg" alt="ForestPD logo" width="360" align="right">
 </picture>
 
 **ForestPD** (Python package `forestpd`) chooses which taxa to protect so that as much

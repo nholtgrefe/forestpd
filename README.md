@@ -4,14 +4,14 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/source/_static/forestpd-logo-dark.svg">
-  <img src="docs/source/_static/forestpd-logo.svg" alt="ForestPD logo" width="360" align="left">
+  <img src="docs/source/_static/forestpd-logo.svg" alt="ForestPD logo" width="360" align="right">
 </picture>
 
 **ForestPD** (Python package `forestpd`) chooses which taxa to protect so that as much
 phylogenetic diversity (PD) as possible is preserved across many phylogenetic trees at once. It uses [numba](https://numba.pydata.org/) for JIT-accelerated computation, and
 connects to [phylozoo](https://github.com/nholtgrefe/phylozoo) for plotting and further analysis.
 
-<br clear="left">
+<br clear="right">
 
 ## Key Features
 

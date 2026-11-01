@@ -7,22 +7,10 @@ dist/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-.hypothesis/
-
-# LaTeX build artifacts
-*.aux
-*.log
-*.out
-Implementation.pdf
 
 experiments/
-experiments_old/
 sandbox/
-source_ms/
-scripts/
-scratch_notes/
 
-CLAUDE.md
+
 .claude/
 TODO
-REPORT.md

@@ -33,12 +33,11 @@ from ..exceptions import ForestPDImportError, ForestPDInputError, ForestPDValueE
 from ..io.newick import to_newick
 from .base import Forest, Rooting, drop_leaf_from_forest
 
-#: How to install maffe while it is not on PyPI. ``-Dpython=true`` is needed: without it, maffe's
-#: build installs no Python module. The ``unrooted`` branch also provides ``solve_unrooted``.
+#: How to install maffe. PyPI has wheels for Linux and Windows on x86_64 (Python >= 3.11); on
+#: other platforms maffe is built from source, as the installation guide describes.
 INSTALL_HINT = (
-    "pip install 'maffe @ git+https://github.com/roehrt/maffe@unrooted' "
-    "-Csetup-args=-Dpython=true  (needs pip >= 23.1, Python >= 3.11 and a C++23 compiler, "
-    "e.g. GCC >= 14; see the forestpd README)"
+    "pip install 'forestpd[maffe]'  (Python >= 3.11; on macOS and Linux on ARM, build maffe "
+    "from source: https://nholtgrefe.github.io/forestpd/installation.html)"
 )
 
 

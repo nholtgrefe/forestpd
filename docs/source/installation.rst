@@ -42,6 +42,9 @@ Optional dependencies
    * - ``phylozoo``
      - Conversion to and from `PhyloZoo <https://github.com/nholtgrefe/phylozoo>`_ trees, for
        plotting and the other PhyloZoo tools (see :ref:`manual-phylozoo`).
+   * - ``maffe``
+     - `maffe <https://github.com/roehrt/maffe>`_, for minimum agreement forests (see
+       :ref:`installation-maffe`).
    * - ``dev``
      - pytest, black, ruff, mypy and PhyloZoo.
    * - ``docs``
@@ -50,6 +53,7 @@ Optional dependencies
 .. code-block:: bash
 
    pip install "forestpd[phylozoo]"
+   pip install "forestpd[maffe]"
    pip install -e ".[dev]"     # in a clone
 
 Building the documentation
@@ -64,6 +68,8 @@ In a clone:
 
 The pages are then in ``docs/build/html/index.html``.
 
+.. _installation-maffe:
+
 Exact agreement forests with maffe
 ----------------------------------
 
@@ -71,40 +77,46 @@ The default agreement-forest stage, :class:`~forestpd.maf.HeuristicMAF`, needs n
 The exact stages :class:`~forestpd.maf.MaffeRMAF` and :class:`~forestpd.maf.MaffeUMAF`, and
 :class:`~forestpd.maf.TieredMAF` (the heuristic, with an exact forest where it is large), need
 `maffe <https://github.com/roehrt/maffe>`_, a C++ solver for minimum agreement forests with Python
-bindings. maffe is not on PyPI and not a dependency of forestpd.
+bindings.
 
 Installing maffe
 ~~~~~~~~~~~~~~~~
 
-Install maffe from source into the same Python environment as forestpd:
+.. code-block:: bash
+
+   pip install "forestpd[maffe]"
+
+This installs maffe from PyPI, which has ready-built packages for Python 3.11 to 3.14 on Linux and
+Windows (x86_64). maffe needs Python >= 3.11.
+
+forestpd works without maffe. maffe is only loaded when a :class:`~forestpd.maf.MaffeRMAF`,
+:class:`~forestpd.maf.MaffeUMAF` or :class:`~forestpd.maf.TieredMAF` is created; without maffe,
+this raises a :class:`~forestpd.ForestPDImportError` that gives the install command.
+
+Building maffe from source
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+On other platforms, such as macOS, Linux on ARM, or Linux with glibc older than 2.28, PyPI has no
+package that fits, and maffe is built from source into the same Python environment:
 
 .. code-block:: bash
 
-   pip install "maffe @ git+https://github.com/roehrt/maffe@unrooted" -Csetup-args=-Dpython=true
+   pip install "maffe @ git+https://github.com/roehrt/maffe@v0.1.1"
 
-* ``-Csetup-args=-Dpython=true`` is required; without it the build succeeds but installs no
-  Python module. ``-C`` needs pip >= 23.1.
-* The ``unrooted`` branch provides both solvers (:class:`~forestpd.maf.MaffeUMAF` needs it).
-  maffe needs Python >= 3.11.
-* The build needs a C++23 compiler (GCC >= 14 or a recent Clang), CMake, Ninja, Git and
-  ``patch``, and downloads and compiles SCIP and HiGHS. It takes about ten minutes.
+The build needs Python >= 3.11, a C++23 compiler (GCC >= 14 or a recent Clang), CMake, Ninja, Git
+and ``patch``, and downloads and compiles SCIP and HiGHS. It takes about ten minutes. The commands
+below pass build options with ``-Csetup-args``, which needs pip >= 23.1.
 
-Only :mod:`forestpd.maf` imports maffe, and only when one of these stages is created. Without maffe,
-creating one raises a :class:`~forestpd.ForestPDImportError` with the install command.
-
-Older compilers
-~~~~~~~~~~~~~~~
-
-If the system compiler is too old (e.g. GCC 12 on Debian 12), use a GCC 14 toolchain from
-conda-forge. Link its C++ runtime statically, so that maffe keeps its own copy and does not clash
-with other compiled packages:
+**Older compilers.** If the system compiler is too old (e.g. GCC 12 on Debian 12), use a GCC 14
+toolchain from conda-forge. Link its C++ runtime statically, so that maffe keeps its own copy and
+does not clash with other compiled packages:
 
 .. code-block:: bash
 
    mamba create -p ./cxx14 -c conda-forge "gxx_linux-64=14" cmake ninja pkg-config patch
    export PATH="$PWD/cxx14/bin:$PATH"
    export CC=x86_64-conda-linux-gnu-gcc CXX=x86_64-conda-linux-gnu-g++
-   pip install "maffe @ git+https://github.com/roehrt/maffe@unrooted" -Csetup-args=-Dpython=true \
+   pip install "maffe @ git+https://github.com/roehrt/maffe@v0.1.1" \
      "-Csetup-args=-Dcpp_link_args=-static-libstdc++ -static-libgcc -Wl,--exclude-libs,ALL -Wl,-Bsymbolic"
 
 On Debian and Ubuntu, conda's compiler does not search the system's multiarch headers, so the
@@ -117,22 +129,16 @@ only that folder visible, then build again:
    ln -s /usr/include/x86_64-linux-gnu/python3.11 pyinc/x86_64-linux-gnu/python3.11
    export CPATH="$PWD/pyinc${CPATH:+:$CPATH}"
 
-Building maffe with Gurobi
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-maffe can use Gurobi instead of HiGHS as SCIP's LP solver (build option ``gurobi``; Gurobi needs a
-licence). With Gurobi in ``$GUROBI_HOME`` (e.g. ``.../gurobi1301/linux64``):
+**Gurobi.** maffe can use Gurobi instead of HiGHS as SCIP's LP solver (build option ``gurobi``;
+Gurobi needs a licence). With Gurobi in ``$GUROBI_HOME`` (e.g. ``.../gurobi1301/linux64``):
 
 .. code-block:: bash
 
    mkdir -p grblib && ln -sf "$GUROBI_HOME/lib/libgurobi130.so" grblib/libgurobi.so
    export GUROBI_DIR="$GUROBI_HOME" CPATH="$GUROBI_HOME/include${CPATH:+:$CPATH}"
    export LIBRARY_PATH="$PWD/grblib:$GUROBI_HOME/lib"
-   pip install --force-reinstall "maffe @ git+https://github.com/roehrt/maffe@unrooted" \
-     -Csetup-args=-Dpython=true -Csetup-args=-Dgurobi=enabled \
-     "-Csetup-args=-Dcpp_link_args=-Wl,-rpath,$GUROBI_HOME/lib"
-
-On simulated gene trees, this build gave the same forests in the same time as the default one.
+   pip install --force-reinstall "maffe @ git+https://github.com/roehrt/maffe@v0.1.1" \
+     -Csetup-args=-Dgurobi=enabled "-Csetup-args=-Dcpp_link_args=-Wl,-rpath,$GUROBI_HOME/lib"
 
 Checking the installation
 -------------------------

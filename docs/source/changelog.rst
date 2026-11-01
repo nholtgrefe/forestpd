@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.1.1
+-----
+
+* maffe is an optional extra: ``pip install "forestpd[maffe]"`` installs it from PyPI (Python
+  3.11 to 3.14, Linux and Windows on x86_64). On other platforms it is built from source, from
+  maffe's release ``v0.1.1``. The error raised without maffe gives this command.
+
 0.1.0
 -----
 

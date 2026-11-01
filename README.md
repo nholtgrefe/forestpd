@@ -29,16 +29,20 @@ connects to [phylozoo](https://github.com/nholtgrefe/phylozoo) for plotting and 
 pip install forestpd
 ```
 
-Runtime dependencies (`numpy`, `numba`) are installed automatically. For conversion to and from
-PhyloZoo (e.g. for plotting), or for development:
+Runtime dependencies (`numpy`, `numba`) are installed automatically.
+
+For conversion to and from [PhyloZoo](https://github.com/nholtgrefe/phylozoo) (e.g. for plotting):
 
 ```bash
-pip install "forestpd[phylozoo]"   # PhyloZoo conversion
-pip install "forestpd[dev]"        # testing
+pip install "forestpd[phylozoo]"
 ```
 
-Minimum agreement forests need [maffe](https://github.com/roehrt/maffe), which is built from
-source; see the [installation guide](https://nholtgrefe.github.io/forestpd/installation.html).
+For minimum agreement forests with [maffe](https://github.com/roehrt/maffe) (Windows and Linux, for macOS,
+see the [installation guide](https://nholtgrefe.github.io/forestpd/installation.html)):
+
+```bash
+pip install "forestpd[maffe]"
+```
 
 ## Quickstart
 

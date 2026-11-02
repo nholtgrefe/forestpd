@@ -17,7 +17,7 @@ The public entry points are :class:`MaxMPDInstance` (build it once, then call
 
 from __future__ import annotations
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 from .api import evaluate_maxmpd, optimize_many_maxmpd, optimize_maxmpd
 from .core import PhyloTree, TaxonRegistry

@@ -33,11 +33,11 @@ from ..exceptions import ForestPDImportError, ForestPDInputError, ForestPDValueE
 from ..io.newick import to_newick
 from .base import Forest, Rooting, drop_leaf_from_forest
 
-#: How to install maffe. PyPI has wheels for Linux and Windows on x86_64 (Python >= 3.11); on
-#: other platforms maffe is built from source, as the installation guide describes.
+#: How to install maffe. PyPI has wheels for Linux (x86_64, ARM), macOS 14+ and Windows (Python
+#: >= 3.11); on other platforms maffe is built from source, as the installation guide describes.
 INSTALL_HINT = (
-    "pip install 'forestpd[maffe]'  (Python >= 3.11; on macOS and Linux on ARM, build maffe "
-    "from source: https://nholtgrefe.github.io/forestpd/installation.html)"
+    "pip install 'forestpd[maffe]'  (Python >= 3.11; for other platforms, see "
+    "https://nholtgrefe.github.io/forestpd/installation.html)"
 )
 
 

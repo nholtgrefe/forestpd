@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.1.2
+-----
+
+* The ``maffe`` extra requires maffe 0.1.2, which has ready-built packages for Linux (x86_64 and
+  ARM), macOS 14 or newer, and Windows, for Python 3.11 to 3.14. Source builds use maffe's release
+  ``v0.1.2``.
+
 0.1.1
 -----
 

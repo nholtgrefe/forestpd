@@ -37,8 +37,7 @@ For conversion to and from [PhyloZoo](https://github.com/nholtgrefe/phylozoo) (e
 pip install "forestpd[phylozoo]"
 ```
 
-For minimum agreement forests with [maffe](https://github.com/roehrt/maffe) (Windows and Linux, for macOS,
-see the [installation guide](https://nholtgrefe.github.io/forestpd/installation.html)):
+For minimum agreement forests with [maffe](https://github.com/roehrt/maffe):
 
 ```bash
 pip install "forestpd[maffe]"

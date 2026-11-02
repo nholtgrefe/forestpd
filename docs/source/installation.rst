@@ -86,8 +86,8 @@ Installing maffe
 
    pip install "forestpd[maffe]"
 
-This installs maffe from PyPI, which has ready-built packages for Python 3.11 to 3.14 on Linux and
-Windows (x86_64). maffe needs Python >= 3.11.
+This installs maffe from PyPI, which has ready-built packages for Python 3.11 to 3.14 on Linux
+(x86_64 and ARM), macOS 14 or newer, and Windows (x86_64). maffe needs Python >= 3.11.
 
 forestpd works without maffe. maffe is only loaded when a :class:`~forestpd.maf.MaffeRMAF`,
 :class:`~forestpd.maf.MaffeUMAF` or :class:`~forestpd.maf.TieredMAF` is created; without maffe,
@@ -96,12 +96,12 @@ this raises a :class:`~forestpd.ForestPDImportError` that gives the install comm
 Building maffe from source
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-On other platforms, such as macOS, Linux on ARM, or Linux with glibc older than 2.28, PyPI has no
-package that fits, and maffe is built from source into the same Python environment:
+On other platforms, such as macOS 13 or older, Linux with glibc older than 2.28, or Windows on ARM,
+PyPI has no package that fits, and maffe is built from source into the same Python environment:
 
 .. code-block:: bash
 
-   pip install "maffe @ git+https://github.com/roehrt/maffe@v0.1.1"
+   pip install "maffe @ git+https://github.com/roehrt/maffe@v0.1.2"
 
 The build needs Python >= 3.11, a C++23 compiler (GCC >= 14 or a recent Clang), CMake, Ninja, Git
 and ``patch``, and downloads and compiles SCIP and HiGHS. It takes about ten minutes. The commands
@@ -116,7 +116,7 @@ does not clash with other compiled packages:
    mamba create -p ./cxx14 -c conda-forge "gxx_linux-64=14" cmake ninja pkg-config patch
    export PATH="$PWD/cxx14/bin:$PATH"
    export CC=x86_64-conda-linux-gnu-gcc CXX=x86_64-conda-linux-gnu-g++
-   pip install "maffe @ git+https://github.com/roehrt/maffe@v0.1.1" \
+   pip install "maffe @ git+https://github.com/roehrt/maffe@v0.1.2" \
      "-Csetup-args=-Dcpp_link_args=-static-libstdc++ -static-libgcc -Wl,--exclude-libs,ALL -Wl,-Bsymbolic"
 
 On Debian and Ubuntu, conda's compiler does not search the system's multiarch headers, so the
@@ -137,7 +137,7 @@ Gurobi needs a licence). With Gurobi in ``$GUROBI_HOME`` (e.g. ``.../gurobi1301/
    mkdir -p grblib && ln -sf "$GUROBI_HOME/lib/libgurobi130.so" grblib/libgurobi.so
    export GUROBI_DIR="$GUROBI_HOME" CPATH="$GUROBI_HOME/include${CPATH:+:$CPATH}"
    export LIBRARY_PATH="$PWD/grblib:$GUROBI_HOME/lib"
-   pip install --force-reinstall "maffe @ git+https://github.com/roehrt/maffe@v0.1.1" \
+   pip install --force-reinstall "maffe @ git+https://github.com/roehrt/maffe@v0.1.2" \
      -Csetup-args=-Dgurobi=enabled "-Csetup-args=-Dcpp_link_args=-Wl,-rpath,$GUROBI_HOME/lib"
 
 Checking the installation

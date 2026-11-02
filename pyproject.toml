@@ -43,10 +43,10 @@ phylozoo = [
     "phylozoo>=0.4.1",
 ]
 # Optional: minimum agreement forests (forestpd.maf: MaffeRMAF, MaffeUMAF, TieredMAF). maffe
-# needs Python >= 3.11 and has wheels for Linux and Windows on x86_64; elsewhere it is built
-# from source (see the installation guide).
+# needs Python >= 3.11 and has wheels for Linux (x86_64, ARM), macOS 14+ and Windows; elsewhere
+# it is built from source (see the installation guide).
 maffe = [
-    "maffe>=0.1.1",
+    "maffe>=0.1.2",
 ]
 test = [
     "pytest>=7.0.0",
